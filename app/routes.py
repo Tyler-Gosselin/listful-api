@@ -1,7 +1,7 @@
 from flask import jsonify, request
 from app import app, db
-from app.models import User, List
-from app.schemas import user_schema, users_schema, list_schema, lists_schema
+from app.models import User, List, Item
+from app.schemas import user_schema, users_schema, list_schema, lists_schema, item_schema, items_schema
 
 
 @app.route('/')
@@ -31,7 +31,7 @@ def get_users():
     return jsonify(users_schema.dump(users))
 
 
-@app.route("/client/log-in", methods=["POST"])
+@app.route("/user/log-in", methods=["POST"])
 def login():
     post_data = request.get_json()
     db_user = User.query.filter_by(email=post_data.get("email")).first()
@@ -58,3 +58,16 @@ def get_all_users():
     all_lists = List.query.all()
     return jsonify(lists_schema.dump(all_lists))
 
+@app.route("/user/list/add-item", methods=['POST'])
+def add_item_to_list():
+    name = request.json['name']
+    list_id = request.json['listId']
+    new_item = Item(list_id=list_id, name=name)
+    db.session.add(new_item)
+    db.session.commit()
+    return jsonify(item_schema.dump(new_item))
+
+@app.route("/list/items", methods=['GET'])
+def get_all_items():
+    all_items = Item.query.all()
+    return jsonify(items_schema.dump(all_items))
