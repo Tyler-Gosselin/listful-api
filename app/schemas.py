@@ -1,5 +1,6 @@
 from app import ma  
-from app.models import User
+from app.models import User, Item, List
+from marshmallow import fields
 
 class UserSchema(ma.Schema):
     class Meta:
@@ -13,7 +14,7 @@ class ItemSchema(ma.Schema):
 
 class ListSchema(ma.Schema):
     class Meta:
-        fields = ("id", "title", items)
+        fields = ("id", "title", "items")
 
     items = fields.List(fields.Nested(lambda: ItemSchema(only=("id", "name",))))
     
