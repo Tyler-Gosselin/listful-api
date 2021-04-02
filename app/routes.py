@@ -1,7 +1,7 @@
 from flask import jsonify, request
 from app import app, db
 from app.models import User, List
-from app.schemas import user_schema, users_schema, list_schema
+from app.schemas import user_schema, users_schema, list_schema, lists_schema
 
 
 @app.route('/')
@@ -36,3 +36,8 @@ def add_list_to_user():
     db.session.add(new_list)
     db.session.commit()
     return jsonify(list_schema.dump(new_list))
+
+@app.route("/user/lists", methods=['GET'])
+def get_all_users():
+    all_lists = List.query.all()
+    return jsonify(lists_schema.dump(all_lists))
