@@ -72,7 +72,7 @@ We're using `flask-migrate` with `alembic` to do our database migrations. You wi
 - After running the migrate command, run the upgrade command
 
 ```
-(venv) $ flask db updgrade
+(venv) $ flask db upgrade
 ```
 
 # Adding packages
