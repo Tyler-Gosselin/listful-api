@@ -71,3 +71,8 @@ def add_item_to_list():
 def get_all_items():
     all_items = Item.query.all()
     return jsonify(items_schema.dump(all_items))
+    
+@app.route("/list/<id>/items", methods=['GET'])
+def get_all_items_in_list(id):
+    single_list = List.query.filter_by(id=id).first()
+    return jsonify(list_schema.dump(single_list))
